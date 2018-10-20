@@ -23,6 +23,12 @@ public class Person implements Serializable {
     @OneToMany(mappedBy = "known", fetch = FetchType.EAGER)
     private List<PersonKnows> knownBy;
 
+    public Person() { }
+
+    public Person(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

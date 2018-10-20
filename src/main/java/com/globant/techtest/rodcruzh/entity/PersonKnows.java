@@ -1,10 +1,11 @@
 package com.globant.techtest.rodcruzh.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "person_knows")
-public class PersonKnows {
+public class PersonKnows implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,6 +21,13 @@ public class PersonKnows {
     @JoinColumn(name = "id_known", referencedColumnName = "id_person")
     @ManyToOne
     private Person known;
+
+    public PersonKnows() { }
+
+    public PersonKnows(Person person, Person known) {
+        this.person = person;
+        this.known = known;
+    }
 
     public Long getId() {
         return id;
