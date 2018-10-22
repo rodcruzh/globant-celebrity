@@ -15,6 +15,7 @@ public class Person implements Serializable {
     @Column(name = "id_person")
     private Long id;
 
+    @Column
     private String name;
 
     @OneToMany(mappedBy = "person", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })

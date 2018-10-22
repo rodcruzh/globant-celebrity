@@ -16,15 +16,15 @@ public class PersonCtrl {
     private PersonSvc personSvc;
 
     @RequestMapping("/csv")
-    public Person findCelebrityCSV() {
+    public String findCelebrityCSV() {
         Optional<Person> celeb = personSvc.findCelebrity(SourcePerson.CSV);
-        return celeb.isPresent() ? celeb.get() : null;
+        return celeb.isPresent() ? celeb.get().getId().toString() : "";
     }
 
     @RequestMapping("/db")
-    public Person findCelebrityDB() {
+    public String findCelebrityDB() {
         Optional<Person> celeb = personSvc.findCelebrity(SourcePerson.DB);
-        return celeb.isPresent() ? celeb.get() : null;
+        return celeb.isPresent() ? celeb.get().getName() : "";
     }
 
     @RequestMapping("/")

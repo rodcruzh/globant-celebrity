@@ -40,7 +40,8 @@ public class PersonSvc {
         long n = people.size();
 
         // If person is known by (n - 1) and person knows nobody, (s)he's a celeb!
-        strPeople.filter(p -> p.getKnownBy() != null && p.getKnownBy().size() == n - 1 && (p.getKnownPeople() == null || p.getKnownPeople() != null && p.getKnownPeople().isEmpty()))
+        strPeople.filter(p -> p.getKnownBy() != null && p.getKnownBy().size() == n - 1
+                && (p.getKnownPeople() == null || p.getKnownPeople() != null && p.getKnownPeople().isEmpty()))
                 .limit(1).forEach(celebrity::add);
 
         return !celebrity.isEmpty() ? Optional.of(celebrity.get(0)) : Optional.empty();

@@ -15,12 +15,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.hamcrest.core.Is.is;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(PersonCtrl.class)
@@ -36,10 +34,9 @@ public class PersonControllerTests {
     public void test01() throws Exception {
         given(personSvc.findCelebrity(SourcePerson.DB)).willReturn(Optional.of(new Person(5L)));
 
-        mockMvc.perform(get("/db").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/db").contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].id", is(5L)));
+                .andExpect(content().string("david"));
     }
 
 }
