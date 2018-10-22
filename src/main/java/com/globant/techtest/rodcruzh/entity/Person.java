@@ -11,16 +11,16 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_person")
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<PersonKnows> knownPeople;
 
-    @OneToMany(mappedBy = "known", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "known", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<PersonKnows> knownBy;
 
     public Person() { }

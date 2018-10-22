@@ -1,4 +1,4 @@
-package com.globant.techtest.rodcruzh.globantcelebrity;
+package com.globant.techtest.rodcruzh;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

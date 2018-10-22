@@ -6,12 +6,14 @@ import com.globant.techtest.rodcruzh.util.CSVLoader;
 import com.globant.techtest.rodcruzh.util.enumeration.SourcePerson;
 import com.globant.techtest.rodcruzh.repo.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Stream;
 
+@Service
 public class PersonSvc {
 
     @Autowired
@@ -38,7 +40,7 @@ public class PersonSvc {
         long n = people.size();
 
         // If person is known by (n - 1) and person knows nobody, (s)he's a celeb!
-        strPeople.filter(p -> p.getKnownBy() != null && p.getKnownBy().size() == n - 1 && p.getKnownPeople() == null)
+        strPeople.filter(p -> p.getKnownBy() != null && p.getKnownBy().size() == n - 1 && (p.getKnownPeople() == null || p.getKnownPeople() != null && p.getKnownPeople().isEmpty()))
                 .limit(1).forEach(celebrity::add);
 
         return !celebrity.isEmpty() ? Optional.of(celebrity.get(0)) : Optional.empty();
