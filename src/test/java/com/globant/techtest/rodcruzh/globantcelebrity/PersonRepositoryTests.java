@@ -1,28 +1,18 @@
 package com.globant.techtest.rodcruzh.globantcelebrity;
 
-import com.globant.techtest.rodcruzh.ctrl.PersonCtrl;
 import com.globant.techtest.rodcruzh.entity.Person;
 import com.globant.techtest.rodcruzh.entity.PersonKnows;
 import com.globant.techtest.rodcruzh.repo.PersonRepository;
-import com.globant.techtest.rodcruzh.svc.PersonSvc;
-import com.globant.techtest.rodcruzh.util.enumeration.SourcePerson;
 import org.assertj.core.api.Assertions;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
