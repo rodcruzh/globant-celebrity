@@ -35,18 +35,18 @@ public class PersonSvc {
         Stream<Person> strPeople = people.stream();
 
         // Count people (n)
-        long n = strPeople.count();
+        long n = people.size();
 
-        // If person is known by (n - 1) and person knows 0, (s)he's a celeb!
-        strPeople.filter(p -> p.getKnownBy().size() == n - 1 && p.getKnownPeople().size() == 0).limit(1).forEach(celebrity::add);
+        // If person is known by (n - 1) and person knows nobody, (s)he's a celeb!
+        strPeople.filter(p -> p.getKnownBy() != null && p.getKnownBy().size() == n - 1 && p.getKnownPeople() == null)
+                .limit(1).forEach(celebrity::add);
 
         return !celebrity.isEmpty() ? Optional.of(celebrity.get(0)) : Optional.empty();
     }
 
     public List<Person> loadPersonDataFromCSV() {
         List<String[]> contents = new ArrayList<>();
-        Map<String, List<PersonKnows>> schema = new HashMap<>();
-        List<Person> people = new ArrayList<>();
+        Map<Long, Person> peopleMap = new HashMap<>();
         CSVLoader loader = new CSVLoader();
 
         try {
@@ -56,20 +56,28 @@ public class PersonSvc {
         }
 
         for (String[] item : contents) {
-            if (schema.get(item[0]) == null) {
-                List<PersonKnows> personKnows = new ArrayList<>();
-                personKnows.add(new PersonKnows(new Person(Long.parseLong(item[0])), new Person(Long.parseLong(item[1]))));
-                schema.put(item[0], personKnows);
-            } else
-                schema.get(item[0]).add(new PersonKnows(new Person(Long.parseLong(item[0])), new Person(Long.parseLong(item[1]))));
+            Long idPerson = Long.parseLong(item[0]), idKnows = Long.parseLong(item[1]);
+
+            if (peopleMap.get(idPerson) == null)
+                peopleMap.put(idPerson, new Person(idPerson));
+            if (peopleMap.get(idKnows) == null)
+                peopleMap.put(idKnows, new Person(idKnows));
+
+            if (peopleMap.get(idPerson).getKnownPeople() == null)
+                peopleMap.get(idPerson).setKnownPeople(new ArrayList<>());
+
+            peopleMap.get(idPerson).getKnownPeople().add(new PersonKnows(new Person(idPerson), new Person(idKnows)));
+
+            if (peopleMap.get(idKnows).getKnownBy() == null)
+                peopleMap.get(idKnows).setKnownBy(new ArrayList<>());
+
+            peopleMap.get(idKnows).getKnownBy().add(new PersonKnows(new Person(idKnows), new Person(idPerson)));
         }
 
-        for (Map.Entry<String, List<PersonKnows>> entry : schema.entrySet()) {
-            Person person = new Person();
-            person.setId(Long.parseLong(entry.getKey()));
-            person.setKnownPeople(entry.getValue());
-            people.add(person);
-        }
+        List<Person> people = new ArrayList<>();
+
+        for (Map.Entry<Long, Person> entry : peopleMap.entrySet())
+            people.add(entry.getValue());
 
         return people;
     }

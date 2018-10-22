@@ -61,4 +61,13 @@ public class Person implements Serializable {
         this.knownBy = knownBy;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Person)
+            if (this.id.equals(((Person) object).getId()))
+                return true;
+            else return false;
+        else return false;
+    }
+
 }
